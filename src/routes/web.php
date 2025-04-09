@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+// indexアクションを呼ぶルーティングにミドルウェアを設定
+// indexを呼び出す前に認証済みかどうかチェックするようになる
+//　認証できていない場合、ログインページが表示される
+Route::middleware('auth')->group(function() {
+    Route::get('/', [AuthController::class, 'index']);
 });
